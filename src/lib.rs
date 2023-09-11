@@ -7,6 +7,7 @@ use spin_sdk::{
 
 #[http_component]
 fn handle_turso_bot(req: Request) -> Result<Response> {
+    println!("Request: {req:?}");
     let telegram_bot = config::get("telegram_bot_token")?;
     let api_endpoint = format!("https://api.telegram.org/bot{telegram_bot}/sendMessage");
 

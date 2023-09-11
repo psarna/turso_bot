@@ -1,0 +1,21 @@
+spin_manifest_version = "1"
+authors = ["Piotr Sarna <sarna@turso.tech>"]
+description = "Turso Telegram bot"
+name = "turso_bot"
+trigger = { type = "http", base = "/" }
+version = "0.1.0"
+
+[variables]
+telegram_bot_token = { required = true, secret = true }
+
+[[component]]
+id = "turso-bot"
+source = "target/wasm32-wasi/release/turso_bot.wasm"
+allowed_http_hosts = ["api.telegram.org"]
+[component.trigger]
+route = "/"
+[component.build]
+command = "cargo build --target wasm32-wasi --release"
+watch = ["src/**/*.rs", "Cargo.toml"]
+[component.config]
+telegram_bot_token = "{{ telegram_bot_token }}"

@@ -12,9 +12,10 @@ fn handle_turso_bot(req: Request) -> Result<Response> {
 
     let params: serde_json::Value =
         serde_json::from_slice(req.body().as_deref().unwrap_or_default())?;
+    let message = params.get("message").context("message not found")?;
 
-    let chat_id = params.get("chat_id").context("chat_id field not found")?;
-    let text = params.get("text").context("text field not found")?;
+    let chat_id = message.get("chat_id").context("chat_id field not found")?;
+    let text = message.get("text").context("text field not found")?;
     let response = format!("Hey, Turso bot here, thanks for sending '{text}', much appreciated!");
     let response = urlencoding::encode(&response);
 
